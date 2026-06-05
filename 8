@@ -1,0 +1,38 @@
+install.packages("arules")
+install.packages("arulesViz")
+install.packages("RColorBrewer")
+
+library(arules)
+library(arulesViz)
+library(RColorBrewer)
+
+SupMarTra <- read.transactions(
+  "C:/Users/student/Downloads/snackitem (1) (2).csv",
+  format = "basket",
+  sep = ","
+)
+
+summary(SupMarTra)
+length(SupMarTra)
+dim(SupMarTra)
+View(SupMarTra)
+
+rules <- apriori(SupMarTra)
+inspect(rules)
+
+rules <- apriori(
+  SupMarTra,
+  parameter = list(supp = 0.3, conf = 0.8)
+)
+inspect(rules)
+
+rules <- apriori(
+  SupMarTra,
+  parameter = list(supp = 0.5, conf = 0.8)
+)
+inspect(rules)
+write(rules,file="C:/Users/student/Downloads/snackitem (1) (2).csv",sep=",")
+library(arulesViz)
+plot(rules)
+plot(rules,method="grouped")
+plot(rules, method="graph",control=list(type="items"))
